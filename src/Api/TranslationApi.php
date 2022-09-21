@@ -11,6 +11,7 @@ namespace Pilcrowls\PilcrowlsTranslationProvider\Api;
 
 use Pilcrowls\PilcrowlsTranslationProvider\Api\DTO\Component;
 use Pilcrowls\PilcrowlsTranslationProvider\Api\DTO\Translation;
+use Pilcrowls\PilcrowlsTranslationProvider\PilcrowlsProvider;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Mime\Part\DataPart;
 use Symfony\Component\Mime\Part\Multipart\FormDataPart;
@@ -59,7 +60,7 @@ class TranslationApi
          *
          * @see https://docs.weblate.org/en/latest/api.html#get--api-components-(string-project)-(string-component)-translations-
          */
-        $response = self::$client->request('GET', $component->translations_url);
+        $response = self::$client->request('GET', PilcrowlsProvider::forceHttps($component->translations_url));
 
         if (200 !== $response->getStatusCode()) {
             self::$logger->debug($response->getStatusCode().': '.$response->getContent(false));
@@ -102,7 +103,7 @@ class TranslationApi
          *
          * @see https://docs.weblate.org/en/latest/api.html#post--api-components-(string-project)-(string-component)-translations-
          */
-        $response = self::$client->request('POST', $component->translations_url, [
+        $response = self::$client->request('POST', PilcrowlsProvider::forceHttps($component->translations_url), [
             'body' => ['language_code' => $locale],
         ]);
 
@@ -139,7 +140,7 @@ class TranslationApi
         ];
         $formData = new FormDataPart($formFields);
 
-        $response = self::$client->request('POST', $translation->file_url, [
+        $response = self::$client->request('POST', PilcrowlsProvider::forceHttps($translation->file_url), [
             'headers' => $formData->getPreparedHeaders()->toArray(),
             'body' => $formData->bodyToString(),
         ]);
@@ -162,7 +163,7 @@ class TranslationApi
          *
          * @see https://docs.weblate.org/en/latest/api.html#get--api-translations-(string-project)-(string-component)-(string-language)-file-
          */
-        $response = self::$client->request('GET', $translation->file_url);
+        $response = self::$client->request('GET', PilcrowlsProvider::forceHttps($translation->file_url));
 
         if (200 !== $response->getStatusCode()) {
             self::$logger->debug($response->getStatusCode().': '.$response->getContent(false));

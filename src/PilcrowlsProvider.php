@@ -68,6 +68,11 @@ class PilcrowlsProvider implements ProviderInterface
         return sprintf('pilcrowls://%s', $this->endpoint);
     }
 
+    public static function forceHttps(string $url): string
+    {
+        return str_replace('http://', 'https://', $url);
+    }
+
     /**
      * @throws ExceptionInterface
      */

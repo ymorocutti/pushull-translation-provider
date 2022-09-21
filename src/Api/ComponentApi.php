@@ -10,6 +10,7 @@
 namespace Pilcrowls\PilcrowlsTranslationProvider\Api;
 
 use Pilcrowls\PilcrowlsTranslationProvider\Api\DTO\Component;
+use Pilcrowls\PilcrowlsTranslationProvider\PilcrowlsProvider;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Mime\Part\DataPart;
 use Symfony\Component\Mime\Part\Multipart\FormDataPart;
@@ -174,7 +175,7 @@ class ComponentApi
          *
          * @see https://docs.weblate.org/en/latest/api.html#delete--api-components-(string-project)-(string-component)-
          */
-        $response = self::$client->request('DELETE', $component->url);
+        $response = self::$client->request('DELETE', PilcrowlsProvider::forceHttps($component->url));
 
         if (204 !== $response->getStatusCode()) {
             self::$logger->debug($response->getStatusCode().': '.$response->getContent(false));
@@ -196,7 +197,7 @@ class ComponentApi
          *
          * @see https://docs.weblate.org/en/latest/api.html#post--api-components-(string-project)-(string-component)-repository-
          */
-        $response = self::$client->request('POST', $component->repository_url, [
+        $response = self::$client->request('POST', PilcrowlsProvider::forceHttps($component->repository_url), [
             'body' => ['operation' => 'commit'],
         ]);
 
