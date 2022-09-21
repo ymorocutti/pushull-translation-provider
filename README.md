@@ -1,16 +1,17 @@
-# Weblate Translation Provider
+# Pilcrowls Translation Provider
 
-[![Author](https://img.shields.io/badge/author-@m2mtech-blue.svg?style=flat-square)](http://www.m2m.at)
 [![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE.md)
 
 ---
 
-This bundle provides a [Weblate](https://weblate.org) integration for [Symfony Translation](https://symfony.com/doc/current/translation.html).
+This bundle provides a [Pilcrowls](https://web.pilcrowls.com) integration for [Symfony Translation](https://symfony.com/doc/current/translation.html).
+
+It is a fork of `m2mtech/pilcrowls-translation-provider` updated for Pilcrowls specific implementation of weblate.
 
 ## Installation
 
 ```bash
-composer require m2mtech/weblate-translation-provider
+composer require pilcrowls/pilcrowls-translation-provider
 ```
 
 If you are not using Flex enable the bundle:
@@ -20,7 +21,7 @@ If you are not using Flex enable the bundle:
 
 return [
     // ...
-    M2MTech\WeblateTranslationProvider\WeblateTranslationProviderBundle::class => ['all' => true],
+    Pilcrowls\PilcrowlsTranslationProvider\PilcrowlsTranslationProviderBundle::class => ['all' => true],
 ];
 ```
 
@@ -31,32 +32,23 @@ Enable the translation provider:
 framework:
     translator:
         providers:
-            weblate:
-                dsn: '%env(WEBLATE_DSN)%'
-                locales: ['en', 'de']
+            pilcrowls:
+                dsn: '%env(PILCROWLS_DSN)%'
+                locales: ['en', 'fr', 'it']
 ```
 
 and set the DSN in your .env file:
 
 ```dotenv
 # .env
-WEBLATE_DSN=weblate://PROJECT_NAME:API_TOKEN@WEBLATE_URL
-```
-
-If you are using a local weblate instance, you can disable the usage of https and/or the verification of the used certificate:
-
-```yaml
-# config/packages/weblate.yaml
-weblate_translation_provider:
-    https: false
-    verify_peer: false
+PILCROWLS_DSN=pilcrowls://PROJECT_NAME:API_TOKEN@PILCROWLS_PROJECT_URL
 ```
 
 ## Usage
 
 ```bash
-bin/console translation:push [options] weblate
-bin/console translation:pull [options] weblate
+bin/console translation:push [options] pilcrowls
+bin/console translation:pull [options] pilcrowls
 ```
 
 ## Testing
@@ -66,8 +58,6 @@ This package has been developed for php 7.4 with compatibility tested for php 7.
 ```bash
 composer test
 ```
-
-For compatibility tests with Symfony 5.3 to 6.0 including a local weblate instance please use the [symfony-weblate-tests](https://github.com/m2mtech/symfony-weblate-tests) package.
 
 ## Changelog
 
@@ -79,11 +69,12 @@ Please see [CONTRIBUTING](.github/CONTRIBUTING.md) for details.
 
 ## Security Vulnerabilities
 
-Please review [our security policy](../../security/policy) on how to report security vulnerabilities.
+Please see [SECURITY](.github/SECURITY.md) on how to report security vulnerabilities.
 
 ## Credits
 
-- [All Contributors](../../contributors)
+- (c) 2022 m2m server software gmbh <tech@m2m.at> and their contributors
+- (c) Pilcrowls Ltd
 
 ## License
 

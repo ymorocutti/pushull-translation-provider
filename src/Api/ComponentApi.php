@@ -1,15 +1,15 @@
 <?php
 /*
- * This file is part of the weblate-translation-provider package.
+ * This file is part of the pilcrowls-translation-provider package.
  *
  * (c) 2022 m2m server software gmbh <tech@m2m.at>
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
 
-namespace M2MTech\WeblateTranslationProvider\Api;
+namespace Pilcrowls\PilcrowlsTranslationProvider\Api;
 
-use M2MTech\WeblateTranslationProvider\Api\DTO\Component;
+use Pilcrowls\PilcrowlsTranslationProvider\Api\DTO\Component;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Mime\Part\DataPart;
 use Symfony\Component\Mime\Part\Multipart\FormDataPart;
@@ -49,9 +49,9 @@ class ComponentApi
     }
 
     /**
-     * @throws ExceptionInterface
-     *
      * @return array<string,Component>
+     *
+     * @throws ExceptionInterface
      */
     public static function getComponents(bool $reload = false): array
     {
@@ -72,7 +72,7 @@ class ComponentApi
 
         if (200 !== $response->getStatusCode()) {
             self::$logger->debug($response->getStatusCode().': '.$response->getContent(false));
-            throw new ProviderException('Unable to get weblate components.', $response);
+            throw new ProviderException('Unable to get pilcrowls components.', $response);
         }
 
         $results = $response->toArray()['results'];
@@ -151,7 +151,7 @@ class ComponentApi
 
         if (201 !== $response->getStatusCode()) {
             self::$logger->debug($response->getStatusCode().': '.$response->getContent(false));
-            throw new ProviderException('Unable to add weblate component '.$domain.'.', $response);
+            throw new ProviderException('Unable to add pilcrowls component '.$domain.'.', $response);
         }
 
         $result = $response->toArray();
@@ -178,7 +178,7 @@ class ComponentApi
 
         if (204 !== $response->getStatusCode()) {
             self::$logger->debug($response->getStatusCode().': '.$response->getContent(false));
-            throw new ProviderException('Unable to delete weblate component '.$component->slug.'.', $response);
+            throw new ProviderException('Unable to delete pilcrowls component '.$component->slug.'.', $response);
         }
 
         unset(self::$components[$component->slug]);
@@ -202,7 +202,7 @@ class ComponentApi
 
         if (200 !== $response->getStatusCode()) {
             self::$logger->debug($response->getStatusCode().': '.$response->getContent(false));
-            throw new ProviderException('Unable to commit weblate component '.$component->slug.'.', $response);
+            throw new ProviderException('Unable to commit pilcrowls component '.$component->slug.'.', $response);
         }
 
         self::$logger->debug('Committed component '.$component->slug);

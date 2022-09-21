@@ -1,19 +1,25 @@
 {
-    "name": "m2mtech/weblate-translation-provider",
+    "name": "pilcrowls/pilcrowls-translation-provider",
     "type": "symfony-translation-bridge",
-    "description": "Symfony Weblate Translation Provider Bridge",
+    "description": "Symfony Pilcrowls Translation Provider Bridge",
     "keywords": [
-        "weblate",
+        "pilcrowls",
         "translation",
         "provider"
     ],
-    "homepage": "https://github.com/m2mtech/weblate-translation-provider",
+    "homepage": "https://github.com/pilcrowls/pilcrowls-translation-provider",
     "license": "MIT",
     "authors": [
         {
             "name": "Martin Mandl",
             "email": "tech@m2m.at",
             "homepage": "https://cms.m2m.at",
+            "role": "Developer"
+        },
+        {
+            "name": "Jerome",
+            "email": "jerome@pilcrowls.com",
+            "homepage": "https://pilcrowls.com",
             "role": "Developer"
         }
     ],
@@ -30,28 +36,27 @@
     },
     "require-dev": {
         "fakerphp/faker": "^1.17",
+        "friendsofphp/php-cs-fixer": "^3.11",
         "phpstan/phpstan": "^1.3",
         "phpunit/phpunit": "^8.5.22|^9.5",
         "roave/security-advisories": "dev-latest",
         "symfony/console": "^5.3|^6.0",
         "symfony/framework-bundle": "^5.3|^6.0",
-        "symfony/phpunit-bridge": "^5.3|^6.0",
-        "symplify/easy-coding-standard": "^10.0"
+        "symfony/phpunit-bridge": "^5.3|^6.0"
     },
     "autoload": {
         "psr-4": {
-            "M2MTech\\WeblateTranslationProvider\\": "src"
+            "Pilcrowls\\PilcrowlsTranslationProvider\\": "src"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "M2MTech\\WeblateTranslationProvider\\Tests\\": "tests"
+            "Pilcrowls\\PilcrowlsTranslationProvider\\Tests\\": "tests"
         }
     },
     "scripts": {
         "test": "vendor/bin/phpunit",
-        "check-cs": "vendor/bin/ecs check",
-        "fix-cs": "vendor/bin/ecs check --fix",
+        "fix-cs": "vendor/bin/php-cs-fixer fix",
         "phpstan": "vendor/bin/phpstan analyse --memory-limit 1G"
     },
     "config": {

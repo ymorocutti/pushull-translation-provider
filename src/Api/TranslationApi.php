@@ -1,16 +1,16 @@
 <?php
 /*
- * This file is part of the weblate-translation-provider package.
+ * This file is part of the pilcrowls-translation-provider package.
  *
  * (c) 2022 m2m server software gmbh <tech@m2m.at>
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
 
-namespace M2MTech\WeblateTranslationProvider\Api;
+namespace Pilcrowls\PilcrowlsTranslationProvider\Api;
 
-use M2MTech\WeblateTranslationProvider\Api\DTO\Component;
-use M2MTech\WeblateTranslationProvider\Api\DTO\Translation;
+use Pilcrowls\PilcrowlsTranslationProvider\Api\DTO\Component;
+use Pilcrowls\PilcrowlsTranslationProvider\Api\DTO\Translation;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Mime\Part\DataPart;
 use Symfony\Component\Mime\Part\Multipart\FormDataPart;
@@ -63,7 +63,7 @@ class TranslationApi
 
         if (200 !== $response->getStatusCode()) {
             self::$logger->debug($response->getStatusCode().': '.$response->getContent(false));
-            throw new ProviderException('Unable to get weblate components translations for '.$component->slug.'.', $response);
+            throw new ProviderException('Unable to get pilcrowls components translations for '.$component->slug.'.', $response);
         }
 
         $results = $response->toArray()['results'];
@@ -108,7 +108,7 @@ class TranslationApi
 
         if (201 !== $response->getStatusCode()) {
             self::$logger->debug($response->getStatusCode().': '.$response->getContent(false));
-            throw new ProviderException('Unable to add weblate components translation for '.$component->slug.' '.$locale.'.', $response);
+            throw new ProviderException('Unable to add pilcrowls components translation for '.$component->slug.' '.$locale.'.', $response);
         }
 
         $result = $response->toArray()['data'];
@@ -146,7 +146,7 @@ class TranslationApi
 
         if (200 !== $response->getStatusCode()) {
             self::$logger->debug($response->getStatusCode().': '.$response->getContent(false));
-            throw new ProviderException('Unable to upload weblate translation '.$content.'.', $response);
+            throw new ProviderException('Unable to upload pilcrowls translation '.$content.'.', $response);
         }
 
         self::$logger->debug('Uploaded translation '.$translation->filename);
@@ -166,7 +166,7 @@ class TranslationApi
 
         if (200 !== $response->getStatusCode()) {
             self::$logger->debug($response->getStatusCode().': '.$response->getContent(false));
-            throw new ProviderException('Unable to download weblate translation.', $response);
+            throw new ProviderException('Unable to download pilcrowls translation.', $response);
         }
 
         self::$logger->debug('Downloaded translation '.$translation->filename);

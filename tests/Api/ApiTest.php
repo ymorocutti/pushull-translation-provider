@@ -1,13 +1,13 @@
 <?php
 /*
- * This file is part of the weblate-translation-provider package.
+ * This file is part of the pilcrowls-translation-provider package.
  *
  * (c) 2022 m2m server software gmbh <tech@m2m.at>
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
 
-namespace M2MTech\WeblateTranslationProvider\Tests\Api;
+namespace Pilcrowls\PilcrowlsTranslationProvider\Tests\Api;
 
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpClient\Response\MockResponse;
@@ -21,7 +21,8 @@ abstract class ApiTest extends TestCase
         string $expectedBody,
         string $result,
         int $statusCode = 200
-    ): callable {
+    ): callable
+    {
         return function (string $method, string $url, array $options = []) use ($expectedUrl, $expectedMethod, $expectedBody, $result, $statusCode): ResponseInterface {
             $this->assertStringEndsWith($expectedUrl, $url);
             $this->assertSame($expectedMethod, $method);

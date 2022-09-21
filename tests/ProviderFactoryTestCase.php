@@ -24,7 +24,7 @@
  * THE SOFTWARE.
  */
 
-namespace M2MTech\WeblateTranslationProvider\Tests;
+namespace Pilcrowls\PilcrowlsTranslationProvider\Tests;
 
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
@@ -93,7 +93,6 @@ abstract class ProviderFactoryTestCase extends TestCase
     public function testSupports(bool $expected, string $dsn): void
     {
         $factory = $this->createFactory();
-
         $this->assertSame($expected, $factory->supports(new Dsn($dsn)));
     }
 
@@ -114,7 +113,6 @@ abstract class ProviderFactoryTestCase extends TestCase
     public function testUnsupportedSchemeException(string $dsn, string $message = null): void
     {
         $factory = $this->createFactory();
-
         $dsn = new Dsn($dsn);
 
         $this->expectException(UnsupportedSchemeException::class);
@@ -131,7 +129,6 @@ abstract class ProviderFactoryTestCase extends TestCase
     public function testIncompleteDsnException(string $dsn, string $message = null): void
     {
         $factory = $this->createFactory();
-
         $dsn = new Dsn($dsn);
 
         $this->expectException(IncompleteDsnException::class);

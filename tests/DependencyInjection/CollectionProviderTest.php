@@ -1,13 +1,13 @@
 <?php
 /*
- * This file is part of the weblate-translation-provider package.
+ * This file is part of the pilcrowls-translation-provider package.
  *
  * (c) 2022 m2m server software gmbh <tech@m2m.at>
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
 
-namespace M2MTech\WeblateTranslationProvider\Tests\DependencyInjection;
+namespace Pilcrowls\PilcrowlsTranslationProvider\Tests\DependencyInjection;
 
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Translation\Provider\TranslationProviderCollection;
@@ -22,8 +22,8 @@ class CollectionProviderTest extends TestCase
 
         /** @var TranslationProviderCollection $providers */
         $providers = $container->get('translation.provider_collection');
-        $this->assertTrue($providers->has('weblate'));
+        $this->assertTrue($providers->has('pilcrowls'));
 
-        $this->assertSame('weblate://server', $providers->get('weblate')->__toString());
+        $this->assertSame('pilcrowls://server', $providers->get('pilcrowls')->__toString());
     }
 }

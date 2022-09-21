@@ -4,7 +4,6 @@
 .editorconfig       export-ignore
 .git*               export-ignore
 .php_cs*            export-ignore
-ecs.php             export-ignore
 docker*             export-ignore
 phpunit*            export-ignore
 phpstan*            export-ignore

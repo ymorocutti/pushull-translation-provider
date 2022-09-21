@@ -1,13 +1,13 @@
 <?php
 /*
- * This file is part of the weblate-translation-provider package.
+ * This file is part of the pilcrowls-translation-provider package.
  *
  * (c) 2022 m2m server software gmbh <tech@m2m.at>
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
 
-namespace M2MTech\WeblateTranslationProvider;
+namespace Pilcrowls\PilcrowlsTranslationProvider;
 
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpClient\ScopingHttpClient;
@@ -19,7 +19,7 @@ use Symfony\Component\Translation\Provider\Dsn;
 use Symfony\Component\Translation\Provider\ProviderInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
-class WeblateProviderFactory extends AbstractProviderFactory
+class PilcrowlsProviderFactory extends AbstractProviderFactory
 {
     /** @var HttpClientInterface */
     private $client;
@@ -62,18 +62,18 @@ class WeblateProviderFactory extends AbstractProviderFactory
 
     protected function getSupportedSchemes(): array
     {
-        return ['weblate'];
+        return ['pilcrowls'];
     }
 
     public function create(Dsn $dsn): ProviderInterface
     {
-        if ('weblate' !== $dsn->getScheme()) {
-            throw new UnsupportedSchemeException($dsn, 'weblate', $this->getSupportedSchemes());
+        if ('pilcrowls' !== $dsn->getScheme()) {
+            throw new UnsupportedSchemeException($dsn, 'pilcrowls', $this->getSupportedSchemes());
         }
 
         $endpoint = $dsn->getHost();
         $endpoint .= $dsn->getPort() ? ':'.$dsn->getPort() : '';
-        $path = trim($dsn->getPath(), '/');
+        $path = trim($dsn->getPath() ?? '', '/');
         if (strlen($path) > 0) {
             $path = '/'.$path;
         }
@@ -92,7 +92,7 @@ class WeblateProviderFactory extends AbstractProviderFactory
             preg_quote($api, '/')
         );
 
-        return new WeblateProvider(
+        return new PilcrowlsProvider(
             $client,
             $this->loader,
             $this->logger,

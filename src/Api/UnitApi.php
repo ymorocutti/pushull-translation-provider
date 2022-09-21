@@ -1,16 +1,16 @@
 <?php
 /*
- * This file is part of the weblate-translation-provider package.
+ * This file is part of the pilcrowls-translation-provider package.
  *
  * (c) 2022 m2m server software gmbh <tech@m2m.at>
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
 
-namespace M2MTech\WeblateTranslationProvider\Api;
+namespace Pilcrowls\PilcrowlsTranslationProvider\Api;
 
-use M2MTech\WeblateTranslationProvider\Api\DTO\Translation;
-use M2MTech\WeblateTranslationProvider\Api\DTO\Unit;
+use Pilcrowls\PilcrowlsTranslationProvider\Api\DTO\Translation;
+use Pilcrowls\PilcrowlsTranslationProvider\Api\DTO\Unit;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Translation\Exception\ProviderException;
 use Symfony\Contracts\HttpClient\Exception\ExceptionInterface;
@@ -38,9 +38,9 @@ class UnitApi
     }
 
     /**
-     * @throws ExceptionInterface
-     *
      * @return array<string,Unit>
+     *
+     * @throws ExceptionInterface
      */
     public static function getUnits(Translation $translation, bool $reload = false): array
     {
@@ -61,7 +61,7 @@ class UnitApi
 
         if (200 !== $response->getStatusCode()) {
             self::$logger->debug($response->getStatusCode().': '.$response->getContent(false));
-            throw new ProviderException('Unable to get weblate units for '.$translation->filename.'.', $response);
+            throw new ProviderException('Unable to get pilcrowls units for '.$translation->filename.'.', $response);
         }
 
         $results = $response->toArray()['results'];
@@ -126,7 +126,7 @@ class UnitApi
 
         if (200 !== $response->getStatusCode()) {
             self::$logger->debug($response->getStatusCode().': '.$response->getContent(false));
-            throw new ProviderException('Unable to add weblate unit for '.$translation->filename.' '.$key.'.', $response);
+            throw new ProviderException('Unable to add pilcrowls unit for '.$translation->filename.' '.$key.'.', $response);
         }
 
         self::$logger->debug('Added unit '.$translation->filename.' '.$key);
@@ -148,7 +148,7 @@ class UnitApi
 
         if (200 !== $response->getStatusCode()) {
             self::$logger->debug($response->getStatusCode().': '.$response->getContent(false));
-            throw new ProviderException('Unable to update weblate unit for '.$unit->context.' '.$value.'.', $response);
+            throw new ProviderException('Unable to update pilcrowls unit for '.$unit->context.' '.$value.'.', $response);
         }
 
         self::$logger->debug('Updated unit '.$unit->context.' '.$value);
@@ -168,7 +168,7 @@ class UnitApi
 
         if (204 !== $response->getStatusCode()) {
             self::$logger->debug($response->getStatusCode().': '.$response->getContent(false));
-            throw new ProviderException('Unable to delete weblate unit for '.$unit->context.'.', $response);
+            throw new ProviderException('Unable to delete pilcrowls unit for '.$unit->context.'.', $response);
         }
 
         self::$logger->debug('Deleted unit '.$unit->context);

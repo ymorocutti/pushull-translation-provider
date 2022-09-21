@@ -1,16 +1,16 @@
 <?php
 /*
- * This file is part of the weblate-translation-provider package.
+ * This file is part of the pilcrowls-translation-provider package.
  *
  * (c) 2022 m2m server software gmbh <tech@m2m.at>
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
 
-namespace M2MTech\WeblateTranslationProvider\Tests;
+namespace Pilcrowls\PilcrowlsTranslationProvider\Tests;
 
-use M2MTech\WeblateTranslationProvider\Tests\Api\DTO\DTOFaker;
-use M2MTech\WeblateTranslationProvider\WeblateProvider;
+use Pilcrowls\PilcrowlsTranslationProvider\PilcrowlsProvider;
+use Pilcrowls\PilcrowlsTranslationProvider\Tests\Api\DTO\DTOFaker;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpClient\MockHttpClient;
 use Symfony\Component\HttpClient\Response\MockResponse;
@@ -23,7 +23,7 @@ use Symfony\Component\Translation\TranslatorBag;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 use Symfony\Contracts\HttpClient\ResponseInterface;
 
-class WeblateProviderTest extends ProviderTestCase
+class PilcrowlsProviderTest extends ProviderTestCase
 {
     public function createProvider(
         HttpClientInterface $client,
@@ -32,7 +32,7 @@ class WeblateProviderTest extends ProviderTestCase
         string $defaultLocale,
         string $endpoint
     ): ProviderInterface {
-        return new WeblateProvider(
+        return new PilcrowlsProvider(
             $client,
             $loader,
             $logger,
@@ -49,9 +49,9 @@ class WeblateProviderTest extends ProviderTestCase
     private function getProvider(array $responses): ProviderInterface
     {
         return $this->createProvider((new MockHttpClient($responses))->withOptions([
-            'base_uri' => 'https://weblate.com/api/',
+            'base_uri' => 'https://web.pilcrowls.com/acme/api/',
             'auth_bearer' => 'API_TOKEN',
-        ]), $this->getLoader(), $this->getLogger(), $this->getDefaultLocale(), 'weblate.com');
+        ]), $this->getLoader(), $this->getLogger(), $this->getDefaultLocale(), 'web.pilcrowls.com');
     }
 
     private function getResponse(
@@ -60,7 +60,8 @@ class WeblateProviderTest extends ProviderTestCase
         string $expectedBody,
         string $result,
         int $statusCode = 200
-    ): callable {
+    ): callable
+    {
         return function (string $method, string $url, array $options = []) use ($expectedUrl, $expectedMethod, $expectedBody, $result, $statusCode): ResponseInterface {
             $this->assertSame($expectedMethod.' '.$expectedUrl, $method.' '.$url);
             $this->assertSame('Authorization: Bearer API_TOKEN', $options['normalized_headers']['authorization'][0]);
@@ -78,7 +79,7 @@ class WeblateProviderTest extends ProviderTestCase
     private function getGetComponentsResponse(array $results): callable
     {
         return $this->getResponse(
-            'https://weblate.com/api/projects/project/components/',
+            'https://web.pilcrowls.com/acme/api/projects/project/components/',
             'GET',
             '',
             (string) json_encode(['results' => $results])
@@ -91,7 +92,7 @@ class WeblateProviderTest extends ProviderTestCase
     private function getAddComponentResponse(string $fileContent, array $result): callable
     {
         return $this->getResponse(
-            'https://weblate.com/api/projects/project/components/',
+            'https://web.pilcrowls.com/acme/api/projects/project/components/',
             'POST',
             $fileContent,
             (string) json_encode($result),
@@ -174,7 +175,7 @@ class WeblateProviderTest extends ProviderTestCase
     {
         yield [
             $this->createProvider($this->getClient(), $this->getLoader(), $this->getLogger(), $this->getDefaultLocale(), 'server'),
-            'weblate://server',
+            'pilcrowls://server',
         ];
     }
 
@@ -217,9 +218,9 @@ class WeblateProviderTest extends ProviderTestCase
                 ),
                 [
                     'slug' => 'messages',
-                    'url' => 'https://weblate.com/api/components/project/messages/',
-                    'repository_url' => 'https://weblate.com/api/components/project/messages/repository/',
-                    'translations_url' => 'https://weblate.com/api/components/project/messages/translations/',
+                    'url' => 'https://web.pilcrowls.com/acme/api/components/project/messages/',
+                    'repository_url' => 'https://web.pilcrowls.com/acme/api/components/project/messages/repository/',
+                    'translations_url' => 'https://web.pilcrowls.com/acme/api/components/project/messages/translations/',
                 ]
             ),
             $this->getAddComponentResponse(
@@ -234,9 +235,9 @@ class WeblateProviderTest extends ProviderTestCase
                 ),
                 [
                     'slug' => 'validators',
-                    'url' => 'https://weblate.com/api/components/project/validators/',
-                    'repository_url' => 'https://weblate.com/api/components/project/validators/repository/',
-                    'translations_url' => 'https://weblate.com/api/components/project/validators/translations/',
+                    'url' => 'https://web.pilcrowls.com/acme/api/components/project/validators/',
+                    'repository_url' => 'https://web.pilcrowls.com/acme/api/components/project/validators/repository/',
+                    'translations_url' => 'https://web.pilcrowls.com/acme/api/components/project/validators/translations/',
                 ]
             ),
         ];

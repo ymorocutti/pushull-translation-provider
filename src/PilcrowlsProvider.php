@@ -1,17 +1,17 @@
 <?php
 /*
- * This file is part of the weblate-translation-provider package.
+ * This file is part of the pilcrowls-translation-provider package.
  *
  * (c) 2022 m2m server software gmbh <tech@m2m.at>
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
 
-namespace M2MTech\WeblateTranslationProvider;
+namespace Pilcrowls\PilcrowlsTranslationProvider;
 
-use M2MTech\WeblateTranslationProvider\Api\ComponentApi;
-use M2MTech\WeblateTranslationProvider\Api\TranslationApi;
-use M2MTech\WeblateTranslationProvider\Api\UnitApi;
+use Pilcrowls\PilcrowlsTranslationProvider\Api\ComponentApi;
+use Pilcrowls\PilcrowlsTranslationProvider\Api\TranslationApi;
+use Pilcrowls\PilcrowlsTranslationProvider\Api\UnitApi;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Translation\Catalogue\AbstractOperation;
 use Symfony\Component\Translation\Catalogue\TargetOperation;
@@ -24,7 +24,7 @@ use Symfony\Component\Translation\TranslatorBagInterface;
 use Symfony\Contracts\HttpClient\Exception\ExceptionInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
-class WeblateProvider implements ProviderInterface
+class PilcrowlsProvider implements ProviderInterface
 {
     /** @var LoaderInterface */
     private $loader;
@@ -65,7 +65,7 @@ class WeblateProvider implements ProviderInterface
 
     public function __toString(): string
     {
-        return sprintf('weblate://%s', $this->endpoint);
+        return sprintf('pilcrowls://%s', $this->endpoint);
     }
 
     /**

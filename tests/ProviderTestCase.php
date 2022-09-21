@@ -25,7 +25,7 @@
  * THE SOFTWARE.
  */
 
-namespace M2MTech\WeblateTranslationProvider\Tests;
+namespace Pilcrowls\PilcrowlsTranslationProvider\Tests;
 
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;

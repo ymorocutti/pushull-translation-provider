@@ -1,16 +1,16 @@
 <?php
 /*
- * This file is part of the weblate-translation-provider package.
+ * This file is part of the pilcrowls-translation-provider package.
  *
  * (c) 2022 m2m server software gmbh <tech@m2m.at>
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
 
-namespace M2MTech\WeblateTranslationProvider\Tests\DependencyInjection;
+namespace Pilcrowls\PilcrowlsTranslationProvider\Tests\DependencyInjection;
 
 use Exception;
-use M2MTech\WeblateTranslationProvider\WeblateTranslationProviderBundle;
+use Pilcrowls\PilcrowlsTranslationProvider\PilcrowlsTranslationProviderBundle;
 use Symfony\Bundle\FrameworkBundle\FrameworkBundle;
 use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -29,7 +29,7 @@ class TestKernel extends Kernel
     {
         return [
             new FrameworkBundle(),
-            new WeblateTranslationProviderBundle(),
+            new PilcrowlsTranslationProviderBundle(),
         ];
     }
 
@@ -43,8 +43,8 @@ class TestKernel extends Kernel
                 'translator' => [
                     'fallbacks' => ['en'],
                     'providers' => [
-                        'weblate' => [
-                            'dsn' => 'weblate://project:key@server',
+                        'pilcrowls' => [
+                            'dsn' => 'pilcrowls://project:key@server',
                             'locales' => ['en', 'de'],
                         ],
                     ],

@@ -1,18 +1,18 @@
 <?php
 /*
- * This file is part of the weblate-translation-provider package.
+ * This file is part of the pilcrowls-translation-provider package.
  *
  * (c) 2022 m2m server software gmbh <tech@m2m.at>
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
 
-namespace M2MTech\WeblateTranslationProvider\Tests\Api;
+namespace Pilcrowls\PilcrowlsTranslationProvider\Tests\Api;
 
-use M2MTech\WeblateTranslationProvider\Api\DTO\Component;
-use M2MTech\WeblateTranslationProvider\Api\DTO\Translation;
-use M2MTech\WeblateTranslationProvider\Api\TranslationApi;
-use M2MTech\WeblateTranslationProvider\Tests\Api\DTO\DTOFaker;
+use Pilcrowls\PilcrowlsTranslationProvider\Api\DTO\Component;
+use Pilcrowls\PilcrowlsTranslationProvider\Api\DTO\Translation;
+use Pilcrowls\PilcrowlsTranslationProvider\Api\TranslationApi;
+use Pilcrowls\PilcrowlsTranslationProvider\Tests\Api\DTO\DTOFaker;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpClient\MockHttpClient;
 use Symfony\Contracts\HttpClient\Exception\ExceptionInterface;
