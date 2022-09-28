@@ -1,22 +1,22 @@
 <?php
 /*
- * This file is part of the pilcrowls-translation-provider package.
+ * This file is part of the pushull-translation-provider package.
  *
  * (c) 2022 m2m server software gmbh <tech@m2m.at>
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
 
-namespace Pilcrowls\PilcrowlsTranslationProvider\Tests;
+namespace Pushull\PushullTranslationProvider\Tests;
 
-use Pilcrowls\PilcrowlsTranslationProvider\PilcrowlsProviderFactory;
+use Pushull\PushullTranslationProvider\PushullProviderFactory;
 use Symfony\Component\Translation\Provider\ProviderFactoryInterface;
 
-class PilcrowlsProviderFactoryTest extends ProviderFactoryTestCase
+class PushullProviderFactoryTest extends ProviderFactoryTestCase
 {
     public function createFactory(): ProviderFactoryInterface
     {
-        return new PilcrowlsProviderFactory(
+        return new PushullProviderFactory(
             $this->getClient(),
             $this->getLoader(),
             $this->getLogger(),
@@ -28,7 +28,7 @@ class PilcrowlsProviderFactoryTest extends ProviderFactoryTestCase
 
     public function supportsProvider(): iterable
     {
-        yield [true, 'pilcrowls://project:key@server'];
+        yield [true, 'pushull://project:key@server'];
         yield [false, 'somethingElse://project:key@server'];
     }
 
@@ -40,14 +40,14 @@ class PilcrowlsProviderFactoryTest extends ProviderFactoryTestCase
     public function createProvider(): iterable
     {
         yield [
-            'pilcrowls://server',
-            'pilcrowls://project:key@server',
+            'pushull://server',
+            'pushull://project:key@server',
         ];
     }
 
     public function incompleteDsnProvider(): iterable
     {
-        yield ['pilcrowls://project@default', 'Password is not set'];
-        yield ['pilcrowls://default', 'Password is not set'];
+        yield ['pushull://project@default', 'Password is not set'];
+        yield ['pushull://default', 'Password is not set'];
     }
 }

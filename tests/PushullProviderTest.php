@@ -1,17 +1,17 @@
 <?php
 /*
- * This file is part of the pilcrowls-translation-provider package.
+ * This file is part of the pushull-translation-provider package.
  *
  * (c) 2022 m2m server software gmbh <tech@m2m.at>
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
 
-namespace Pilcrowls\PilcrowlsTranslationProvider\Tests;
+namespace Pushull\PushullTranslationProvider\Tests;
 
-use Pilcrowls\PilcrowlsTranslationProvider\PilcrowlsProvider;
-use Pilcrowls\PilcrowlsTranslationProvider\Tests\Api\DTO\DTOFaker;
 use Psr\Log\LoggerInterface;
+use Pushull\PushullTranslationProvider\PushullProvider;
+use Pushull\PushullTranslationProvider\Tests\Api\DTO\DTOFaker;
 use Symfony\Component\HttpClient\MockHttpClient;
 use Symfony\Component\HttpClient\Response\MockResponse;
 use Symfony\Component\Translation\Dumper\XliffFileDumper;
@@ -23,7 +23,7 @@ use Symfony\Component\Translation\TranslatorBag;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 use Symfony\Contracts\HttpClient\ResponseInterface;
 
-class PilcrowlsProviderTest extends ProviderTestCase
+class PushullProviderTest extends ProviderTestCase
 {
     public function createProvider(
         HttpClientInterface $client,
@@ -32,7 +32,7 @@ class PilcrowlsProviderTest extends ProviderTestCase
         string $defaultLocale,
         string $endpoint
     ): ProviderInterface {
-        return new PilcrowlsProvider(
+        return new PushullProvider(
             $client,
             $loader,
             $logger,
@@ -49,9 +49,9 @@ class PilcrowlsProviderTest extends ProviderTestCase
     private function getProvider(array $responses): ProviderInterface
     {
         return $this->createProvider((new MockHttpClient($responses))->withOptions([
-            'base_uri' => 'https://web.pilcrowls.com/acme/api/',
+            'base_uri' => 'https://web.pushull.com/acme/api/',
             'auth_bearer' => 'API_TOKEN',
-        ]), $this->getLoader(), $this->getLogger(), $this->getDefaultLocale(), 'web.pilcrowls.com');
+        ]), $this->getLoader(), $this->getLogger(), $this->getDefaultLocale(), 'web.pushull.com');
     }
 
     private function getResponse(
@@ -79,7 +79,7 @@ class PilcrowlsProviderTest extends ProviderTestCase
     private function getGetComponentsResponse(array $results): callable
     {
         return $this->getResponse(
-            'https://web.pilcrowls.com/acme/api/projects/project/components/',
+            'https://web.pushull.com/acme/api/projects/project/components/',
             'GET',
             '',
             (string) json_encode(['results' => $results])
@@ -92,7 +92,7 @@ class PilcrowlsProviderTest extends ProviderTestCase
     private function getAddComponentResponse(string $fileContent, array $result): callable
     {
         return $this->getResponse(
-            'https://web.pilcrowls.com/acme/api/projects/project/components/',
+            'https://web.pushull.com/acme/api/projects/project/components/',
             'POST',
             $fileContent,
             (string) json_encode($result),
@@ -175,7 +175,7 @@ class PilcrowlsProviderTest extends ProviderTestCase
     {
         yield [
             $this->createProvider($this->getClient(), $this->getLoader(), $this->getLogger(), $this->getDefaultLocale(), 'server'),
-            'pilcrowls://server',
+            'pushull://server',
         ];
     }
 
@@ -218,9 +218,9 @@ class PilcrowlsProviderTest extends ProviderTestCase
                 ),
                 [
                     'slug' => 'messages',
-                    'url' => 'https://web.pilcrowls.com/acme/api/components/project/messages/',
-                    'repository_url' => 'https://web.pilcrowls.com/acme/api/components/project/messages/repository/',
-                    'translations_url' => 'https://web.pilcrowls.com/acme/api/components/project/messages/translations/',
+                    'url' => 'https://web.pushull.com/acme/api/components/project/messages/',
+                    'repository_url' => 'https://web.pushull.com/acme/api/components/project/messages/repository/',
+                    'translations_url' => 'https://web.pushull.com/acme/api/components/project/messages/translations/',
                 ]
             ),
             $this->getAddComponentResponse(
@@ -235,9 +235,9 @@ class PilcrowlsProviderTest extends ProviderTestCase
                 ),
                 [
                     'slug' => 'validators',
-                    'url' => 'https://web.pilcrowls.com/acme/api/components/project/validators/',
-                    'repository_url' => 'https://web.pilcrowls.com/acme/api/components/project/validators/repository/',
-                    'translations_url' => 'https://web.pilcrowls.com/acme/api/components/project/validators/translations/',
+                    'url' => 'https://web.pushull.com/acme/api/components/project/validators/',
+                    'repository_url' => 'https://web.pushull.com/acme/api/components/project/validators/repository/',
+                    'translations_url' => 'https://web.pushull.com/acme/api/components/project/validators/translations/',
                 ]
             ),
         ];

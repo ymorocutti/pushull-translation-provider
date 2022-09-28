@@ -1,18 +1,18 @@
 <?php
 /*
- * This file is part of the pilcrowls-translation-provider package.
+ * This file is part of the pushull-translation-provider package.
  *
  * (c) 2022 m2m server software gmbh <tech@m2m.at>
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
 
-namespace Pilcrowls\PilcrowlsTranslationProvider;
+namespace Pushull\PushullTranslationProvider;
 
-use Pilcrowls\PilcrowlsTranslationProvider\Api\ComponentApi;
-use Pilcrowls\PilcrowlsTranslationProvider\Api\TranslationApi;
-use Pilcrowls\PilcrowlsTranslationProvider\Api\UnitApi;
 use Psr\Log\LoggerInterface;
+use Pushull\PushullTranslationProvider\Api\ComponentApi;
+use Pushull\PushullTranslationProvider\Api\TranslationApi;
+use Pushull\PushullTranslationProvider\Api\UnitApi;
 use Symfony\Component\Translation\Catalogue\AbstractOperation;
 use Symfony\Component\Translation\Catalogue\TargetOperation;
 use Symfony\Component\Translation\Dumper\XliffFileDumper;
@@ -24,7 +24,7 @@ use Symfony\Component\Translation\TranslatorBagInterface;
 use Symfony\Contracts\HttpClient\Exception\ExceptionInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
-class PilcrowlsProvider implements ProviderInterface
+class PushullProvider implements ProviderInterface
 {
     /** @var LoaderInterface */
     private $loader;
@@ -65,7 +65,7 @@ class PilcrowlsProvider implements ProviderInterface
 
     public function __toString(): string
     {
-        return sprintf('pilcrowls://%s', $this->endpoint);
+        return sprintf('pushull://%s', $this->endpoint);
     }
 
     public static function forceHttps(string $url): string

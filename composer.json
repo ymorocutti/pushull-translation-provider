@@ -1,13 +1,13 @@
 {
-    "name": "pilcrowls/pilcrowls-translation-provider",
+    "name": "pushull/pushull-translation-provider",
     "type": "symfony-translation-bridge",
-    "description": "Symfony Pilcrowls Translation Provider Bridge",
+    "description": "Symfony Pushull Translation Provider Bridge",
     "keywords": [
-        "pilcrowls",
+        "pushull",
         "translation",
         "provider"
     ],
-    "homepage": "https://github.com/pilcrowls/pilcrowls-translation-provider",
+    "homepage": "https://github.com/pushull/pushull-translation-provider",
     "license": "MIT",
     "authors": [
         {
@@ -18,8 +18,8 @@
         },
         {
             "name": "Jerome",
-            "email": "jerome@pilcrowls.com",
-            "homepage": "https://pilcrowls.com",
+            "email": "jerome@pushull.com",
+            "homepage": "https://pushull.com",
             "role": "Developer"
         }
     ],
@@ -46,12 +46,12 @@
     },
     "autoload": {
         "psr-4": {
-            "Pilcrowls\\PilcrowlsTranslationProvider\\": "src"
+            "Pushull\\PushullTranslationProvider\\": "src"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Pilcrowls\\PilcrowlsTranslationProvider\\Tests\\": "tests"
+            "Pushull\\PushullTranslationProvider\\Tests\\": "tests"
         }
     },
     "scripts": {

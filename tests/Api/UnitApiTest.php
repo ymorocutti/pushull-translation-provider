@@ -1,19 +1,19 @@
 <?php
 /*
- * This file is part of the pilcrowls-translation-provider package.
+ * This file is part of the pushull-translation-provider package.
  *
  * (c) 2022 m2m server software gmbh <tech@m2m.at>
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
 
-namespace Pilcrowls\PilcrowlsTranslationProvider\Tests\Api;
+namespace Pushull\PushullTranslationProvider\Tests\Api;
 
-use Pilcrowls\PilcrowlsTranslationProvider\Api\DTO\Translation;
-use Pilcrowls\PilcrowlsTranslationProvider\Api\DTO\Unit;
-use Pilcrowls\PilcrowlsTranslationProvider\Api\UnitApi;
-use Pilcrowls\PilcrowlsTranslationProvider\Tests\Api\DTO\DTOFaker;
 use Psr\Log\LoggerInterface;
+use Pushull\PushullTranslationProvider\Api\DTO\Translation;
+use Pushull\PushullTranslationProvider\Api\DTO\Unit;
+use Pushull\PushullTranslationProvider\Api\UnitApi;
+use Pushull\PushullTranslationProvider\Tests\Api\DTO\DTOFaker;
 use Symfony\Component\HttpClient\MockHttpClient;
 use Symfony\Contracts\HttpClient\Exception\ExceptionInterface;
 

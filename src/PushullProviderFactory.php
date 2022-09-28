@@ -1,13 +1,13 @@
 <?php
 /*
- * This file is part of the pilcrowls-translation-provider package.
+ * This file is part of the pushull-translation-provider package.
  *
  * (c) 2022 m2m server software gmbh <tech@m2m.at>
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
 
-namespace Pilcrowls\PilcrowlsTranslationProvider;
+namespace Pushull\PushullTranslationProvider;
 
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpClient\ScopingHttpClient;
@@ -19,7 +19,7 @@ use Symfony\Component\Translation\Provider\Dsn;
 use Symfony\Component\Translation\Provider\ProviderInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
-class PilcrowlsProviderFactory extends AbstractProviderFactory
+class PushullProviderFactory extends AbstractProviderFactory
 {
     /** @var HttpClientInterface */
     private $client;
@@ -62,13 +62,13 @@ class PilcrowlsProviderFactory extends AbstractProviderFactory
 
     protected function getSupportedSchemes(): array
     {
-        return ['pilcrowls'];
+        return ['pushull'];
     }
 
     public function create(Dsn $dsn): ProviderInterface
     {
-        if ('pilcrowls' !== $dsn->getScheme()) {
-            throw new UnsupportedSchemeException($dsn, 'pilcrowls', $this->getSupportedSchemes());
+        if ('pushull' !== $dsn->getScheme()) {
+            throw new UnsupportedSchemeException($dsn, 'pushull', $this->getSupportedSchemes());
         }
 
         $endpoint = $dsn->getHost();
@@ -92,7 +92,7 @@ class PilcrowlsProviderFactory extends AbstractProviderFactory
             preg_quote($api, '/')
         );
 
-        return new PilcrowlsProvider(
+        return new PushullProvider(
             $client,
             $this->loader,
             $this->logger,

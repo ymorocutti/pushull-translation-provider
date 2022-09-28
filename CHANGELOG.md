@@ -9,7 +9,7 @@
 - ...
 --->
 
-[1.0.0]: https://github.com/pilcrowls/pilcrowls-translation-provider/releases/tag/v1.0.0
+[1.0.0]: https://github.com/pushull/pushull-translation-provider/releases/tag/v1.0.0
 <!---
-[Unreleased]: https://github.com/pilcrowls/pilcrowls-translation-provider/compare/v1.0.0...HEAD
+[Unreleased]: https://github.com/pushull/pushull-translation-provider/compare/v1.0.0...HEAD
 --->

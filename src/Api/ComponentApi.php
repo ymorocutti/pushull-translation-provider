@@ -1,17 +1,17 @@
 <?php
 /*
- * This file is part of the pilcrowls-translation-provider package.
+ * This file is part of the pushull-translation-provider package.
  *
  * (c) 2022 m2m server software gmbh <tech@m2m.at>
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
 
-namespace Pilcrowls\PilcrowlsTranslationProvider\Api;
+namespace Pushull\PushullTranslationProvider\Api;
 
-use Pilcrowls\PilcrowlsTranslationProvider\Api\DTO\Component;
-use Pilcrowls\PilcrowlsTranslationProvider\PilcrowlsProvider;
 use Psr\Log\LoggerInterface;
+use Pushull\PushullTranslationProvider\Api\DTO\Component;
+use Pushull\PushullTranslationProvider\PushullProvider;
 use Symfony\Component\Mime\Part\DataPart;
 use Symfony\Component\Mime\Part\Multipart\FormDataPart;
 use Symfony\Component\Translation\Exception\ProviderException;
@@ -73,7 +73,7 @@ class ComponentApi
 
         if (200 !== $response->getStatusCode()) {
             self::$logger->debug($response->getStatusCode().': '.$response->getContent(false));
-            throw new ProviderException('Unable to get pilcrowls components.', $response);
+            throw new ProviderException('Unable to get pushull components.', $response);
         }
 
         $results = $response->toArray()['results'];
@@ -152,7 +152,7 @@ class ComponentApi
 
         if (201 !== $response->getStatusCode()) {
             self::$logger->debug($response->getStatusCode().': '.$response->getContent(false));
-            throw new ProviderException('Unable to add pilcrowls component '.$domain.'.', $response);
+            throw new ProviderException('Unable to add pushull component '.$domain.'.', $response);
         }
 
         $result = $response->toArray();
@@ -175,11 +175,11 @@ class ComponentApi
          *
          * @see https://docs.weblate.org/en/latest/api.html#delete--api-components-(string-project)-(string-component)-
          */
-        $response = self::$client->request('DELETE', PilcrowlsProvider::forceHttps($component->url));
+        $response = self::$client->request('DELETE', PushullProvider::forceHttps($component->url));
 
         if (204 !== $response->getStatusCode()) {
             self::$logger->debug($response->getStatusCode().': '.$response->getContent(false));
-            throw new ProviderException('Unable to delete pilcrowls component '.$component->slug.'.', $response);
+            throw new ProviderException('Unable to delete pushull component '.$component->slug.'.', $response);
         }
 
         unset(self::$components[$component->slug]);
@@ -197,13 +197,13 @@ class ComponentApi
          *
          * @see https://docs.weblate.org/en/latest/api.html#post--api-components-(string-project)-(string-component)-repository-
          */
-        $response = self::$client->request('POST', PilcrowlsProvider::forceHttps($component->repository_url), [
+        $response = self::$client->request('POST', PushullProvider::forceHttps($component->repository_url), [
             'body' => ['operation' => 'commit'],
         ]);
 
         if (200 !== $response->getStatusCode()) {
             self::$logger->debug($response->getStatusCode().': '.$response->getContent(false));
-            throw new ProviderException('Unable to commit pilcrowls component '.$component->slug.'.', $response);
+            throw new ProviderException('Unable to commit pushull component '.$component->slug.'.', $response);
         }
 
         self::$logger->debug('Committed component '.$component->slug);

@@ -1,18 +1,18 @@
 <?php
 /*
- * This file is part of the pilcrowls-translation-provider package.
+ * This file is part of the pushull-translation-provider package.
  *
  * (c) 2022 m2m server software gmbh <tech@m2m.at>
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
 
-namespace Pilcrowls\PilcrowlsTranslationProvider\Api;
+namespace Pushull\PushullTranslationProvider\Api;
 
-use Pilcrowls\PilcrowlsTranslationProvider\Api\DTO\Translation;
-use Pilcrowls\PilcrowlsTranslationProvider\Api\DTO\Unit;
-use Pilcrowls\PilcrowlsTranslationProvider\PilcrowlsProvider;
 use Psr\Log\LoggerInterface;
+use Pushull\PushullTranslationProvider\Api\DTO\Translation;
+use Pushull\PushullTranslationProvider\Api\DTO\Unit;
+use Pushull\PushullTranslationProvider\PushullProvider;
 use Symfony\Component\Translation\Exception\ProviderException;
 use Symfony\Contracts\HttpClient\Exception\ExceptionInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
@@ -58,11 +58,11 @@ class UnitApi
          *
          * @see GET /api/translations/(string: project)/(string: component)/(string: language)/units/
          */
-        $response = self::$client->request('GET', PilcrowlsProvider::forceHttps($translation->units_list_url));
+        $response = self::$client->request('GET', PushullProvider::forceHttps($translation->units_list_url));
 
         if (200 !== $response->getStatusCode()) {
             self::$logger->debug($response->getStatusCode().': '.$response->getContent(false));
-            throw new ProviderException('Unable to get pilcrowls units for '.$translation->filename.'.', $response);
+            throw new ProviderException('Unable to get pushull units for '.$translation->filename.'.', $response);
         }
 
         $results = $response->toArray()['results'];
@@ -121,13 +121,13 @@ class UnitApi
          *
          * @see https://docs.weblate.org/en/latest/api.html#post--api-translations-(string-project)-(string-component)-(string-language)-units-
          */
-        $response = self::$client->request('POST', PilcrowlsProvider::forceHttps($translation->units_list_url), [
+        $response = self::$client->request('POST', PushullProvider::forceHttps($translation->units_list_url), [
             'body' => ['key' => $key, 'value' => $value],
         ]);
 
         if (200 !== $response->getStatusCode()) {
             self::$logger->debug($response->getStatusCode().': '.$response->getContent(false));
-            throw new ProviderException('Unable to add pilcrowls unit for '.$translation->filename.' '.$key.'.', $response);
+            throw new ProviderException('Unable to add pushull unit for '.$translation->filename.' '.$key.'.', $response);
         }
 
         self::$logger->debug('Added unit '.$translation->filename.' '.$key);
@@ -143,13 +143,13 @@ class UnitApi
          *
          * @see https://docs.weblate.org/en/latest/api.html#patch--api-units-(int-id)-
          */
-        $response = self::$client->request('PATCH', PilcrowlsProvider::forceHttps($unit->url), [
+        $response = self::$client->request('PATCH', PushullProvider::forceHttps($unit->url), [
             'body' => ['target' => $value, 'state' => $value ? 20 : 0],
         ]);
 
         if (200 !== $response->getStatusCode()) {
             self::$logger->debug($response->getStatusCode().': '.$response->getContent(false));
-            throw new ProviderException('Unable to update pilcrowls unit for '.$unit->context.' '.$value.'.', $response);
+            throw new ProviderException('Unable to update pushull unit for '.$unit->context.' '.$value.'.', $response);
         }
 
         self::$logger->debug('Updated unit '.$unit->context.' '.$value);
@@ -165,11 +165,11 @@ class UnitApi
          *
          * @see https://docs.weblate.org/en/latest/api.html#delete--api-units-(int-id)-
          */
-        $response = self::$client->request('DELETE', PilcrowlsProvider::forceHttps($unit->url));
+        $response = self::$client->request('DELETE', PushullProvider::forceHttps($unit->url));
 
         if (204 !== $response->getStatusCode()) {
             self::$logger->debug($response->getStatusCode().': '.$response->getContent(false));
-            throw new ProviderException('Unable to delete pilcrowls unit for '.$unit->context.'.', $response);
+            throw new ProviderException('Unable to delete pushull unit for '.$unit->context.'.', $response);
         }
 
         self::$logger->debug('Deleted unit '.$unit->context);

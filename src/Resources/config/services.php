@@ -1,14 +1,14 @@
 <?php
 /*
- * This file is part of the pilcrowls-translation-provider package.
+ * This file is part of the pushull-translation-provider package.
  *
  * (c) 2022 m2m server software gmbh <tech@m2m.at>
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
 
-use Pilcrowls\PilcrowlsTranslationProvider\PilcrowlsProvider;
-use Pilcrowls\PilcrowlsTranslationProvider\PilcrowlsProviderFactory;
+use Pushull\PushullTranslationProvider\PushullProvider;
+use Pushull\PushullTranslationProvider\PushullProviderFactory;
 
 use function Symfony\Component\DependencyInjection\Loader\Configurator\abstract_arg;
 
@@ -20,7 +20,7 @@ use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
 return static function (ContainerConfigurator $containerConfigurator): void {
     $services = $containerConfigurator->services();
 
-    $services->set('pilcrowls.translation.provider_factory.pilcrowls', PilcrowlsProviderFactory::class)
+    $services->set('pushull.translation.provider_factory.pushull', PushullProviderFactory::class)
         ->args([
             service('http_client'),
             service('translation.loader.xliff'),
@@ -31,5 +31,5 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         ])
         ->tag('translation.provider_factory');
 
-    $services->set('pilcrowls.translation.provider.pilcrowls', PilcrowlsProvider::class);
+    $services->set('pushull.translation.provider.pushull', PushullProvider::class);
 };

@@ -1,18 +1,18 @@
 <?php
 /*
- * This file is part of the pilcrowls-translation-provider package.
+ * This file is part of the pushull-translation-provider package.
  *
  * (c) 2022 m2m server software gmbh <tech@m2m.at>
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
 
-namespace Pilcrowls\PilcrowlsTranslationProvider\Api;
+namespace Pushull\PushullTranslationProvider\Api;
 
-use Pilcrowls\PilcrowlsTranslationProvider\Api\DTO\Component;
-use Pilcrowls\PilcrowlsTranslationProvider\Api\DTO\Translation;
-use Pilcrowls\PilcrowlsTranslationProvider\PilcrowlsProvider;
 use Psr\Log\LoggerInterface;
+use Pushull\PushullTranslationProvider\Api\DTO\Component;
+use Pushull\PushullTranslationProvider\Api\DTO\Translation;
+use Pushull\PushullTranslationProvider\PushullProvider;
 use Symfony\Component\Mime\Part\DataPart;
 use Symfony\Component\Mime\Part\Multipart\FormDataPart;
 use Symfony\Component\Translation\Exception\ProviderException;
@@ -60,11 +60,11 @@ class TranslationApi
          *
          * @see https://docs.weblate.org/en/latest/api.html#get--api-components-(string-project)-(string-component)-translations-
          */
-        $response = self::$client->request('GET', PilcrowlsProvider::forceHttps($component->translations_url));
+        $response = self::$client->request('GET', PushullProvider::forceHttps($component->translations_url));
 
         if (200 !== $response->getStatusCode()) {
             self::$logger->debug($response->getStatusCode().': '.$response->getContent(false));
-            throw new ProviderException('Unable to get pilcrowls components translations for '.$component->slug.'.', $response);
+            throw new ProviderException('Unable to get pushull components translations for '.$component->slug.'.', $response);
         }
 
         $results = $response->toArray()['results'];
@@ -103,13 +103,13 @@ class TranslationApi
          *
          * @see https://docs.weblate.org/en/latest/api.html#post--api-components-(string-project)-(string-component)-translations-
          */
-        $response = self::$client->request('POST', PilcrowlsProvider::forceHttps($component->translations_url), [
+        $response = self::$client->request('POST', PushullProvider::forceHttps($component->translations_url), [
             'body' => ['language_code' => $locale],
         ]);
 
         if (201 !== $response->getStatusCode()) {
             self::$logger->debug($response->getStatusCode().': '.$response->getContent(false));
-            throw new ProviderException('Unable to add pilcrowls components translation for '.$component->slug.' '.$locale.'.', $response);
+            throw new ProviderException('Unable to add pushull components translation for '.$component->slug.' '.$locale.'.', $response);
         }
 
         $result = $response->toArray()['data'];
@@ -140,14 +140,14 @@ class TranslationApi
         ];
         $formData = new FormDataPart($formFields);
 
-        $response = self::$client->request('POST', PilcrowlsProvider::forceHttps($translation->file_url), [
+        $response = self::$client->request('POST', PushullProvider::forceHttps($translation->file_url), [
             'headers' => $formData->getPreparedHeaders()->toArray(),
             'body' => $formData->bodyToString(),
         ]);
 
         if (200 !== $response->getStatusCode()) {
             self::$logger->debug($response->getStatusCode().': '.$response->getContent(false));
-            throw new ProviderException('Unable to upload pilcrowls translation '.$content.'.', $response);
+            throw new ProviderException('Unable to upload pushull translation '.$content.'.', $response);
         }
 
         self::$logger->debug('Uploaded translation '.$translation->filename);
@@ -163,11 +163,11 @@ class TranslationApi
          *
          * @see https://docs.weblate.org/en/latest/api.html#get--api-translations-(string-project)-(string-component)-(string-language)-file-
          */
-        $response = self::$client->request('GET', PilcrowlsProvider::forceHttps($translation->file_url));
+        $response = self::$client->request('GET', PushullProvider::forceHttps($translation->file_url));
 
         if (200 !== $response->getStatusCode()) {
             self::$logger->debug($response->getStatusCode().': '.$response->getContent(false));
-            throw new ProviderException('Unable to download pilcrowls translation.', $response);
+            throw new ProviderException('Unable to download pushull translation.', $response);
         }
 
         self::$logger->debug('Downloaded translation '.$translation->filename);

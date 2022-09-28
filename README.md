@@ -1,17 +1,17 @@
-# Pilcrowls Translation Provider
+# Pushull Translation Provider
 
 [![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE.md)
 
 ---
 
-This bundle provides a [Pilcrowls](https://web.pilcrowls.com) integration for [Symfony Translation](https://symfony.com/doc/current/translation.html).
+This bundle provides a [Pushull](https://web.pushull.com) integration for [Symfony Translation](https://symfony.com/doc/current/translation.html).
 
-It is a fork of `m2mtech/pilcrowls-translation-provider` updated for Pilcrowls specific implementation of weblate.
+It is a fork of `m2mtech/pushull-translation-provider` updated for Pushull specific implementation of weblate.
 
 ## Installation
 
 ```bash
-composer require pilcrowls/pilcrowls-translation-provider
+composer require pushull/pushull-translation-provider
 ```
 
 If you are not using Flex enable the bundle:
@@ -21,7 +21,7 @@ If you are not using Flex enable the bundle:
 
 return [
     // ...
-    Pilcrowls\PilcrowlsTranslationProvider\PilcrowlsTranslationProviderBundle::class => ['all' => true],
+    Pushull\PushullTranslationProvider\PushullTranslationProviderBundle::class => ['all' => true],
 ];
 ```
 
@@ -32,8 +32,8 @@ Enable the translation provider:
 framework:
     translator:
         providers:
-            pilcrowls:
-                dsn: '%env(PILCROWLS_DSN)%'
+            pushull:
+                dsn: '%env(PUSHULL_DSN)%'
                 locales: ['en', 'fr', 'it']
 ```
 
@@ -41,14 +41,14 @@ and set the DSN in your .env file:
 
 ```dotenv
 # .env
-PILCROWLS_DSN=pilcrowls://PROJECT_NAME:API_TOKEN@PILCROWLS_PROJECT_URL
+PUSHULL_DSN=pushull://PROJECT_NAME:API_TOKEN@PUSHULL_PROJECT_URL
 ```
 
 ## Usage
 
 ```bash
-bin/console translation:push [options] pilcrowls
-bin/console translation:pull [options] pilcrowls
+bin/console translation:push [options] pushull
+bin/console translation:pull [options] pushull
 ```
 
 ## Testing
@@ -74,7 +74,7 @@ Please see [SECURITY](.github/SECURITY.md) on how to report security vulnerabili
 ## Credits
 
 - (c) 2022 m2m server software gmbh <tech@m2m.at> and their contributors
-- (c) Pilcrowls Ltd
+- (c) Pushull Ltd
 
 ## License
 

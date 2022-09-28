@@ -24,7 +24,7 @@
  * THE SOFTWARE.
  */
 
-namespace Pilcrowls\PilcrowlsTranslationProvider\Tests;
+namespace Pushull\PushullTranslationProvider\Tests;
 
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
