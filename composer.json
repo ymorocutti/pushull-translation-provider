@@ -56,7 +56,7 @@
     },
     "scripts": {
         "test": "vendor/bin/phpunit",
-        "fix-cs": "vendor/bin/php-cs-fixer fix",
+        "phpcs": "vendor/bin/php-cs-fixer fix",
         "phpstan": "vendor/bin/phpstan analyse --memory-limit 1G"
     },
     "config": {
