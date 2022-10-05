@@ -12,7 +12,6 @@ namespace Pushull\PushullTranslationProvider\Api;
 use Psr\Log\LoggerInterface;
 use Pushull\PushullTranslationProvider\Api\DTO\Translation;
 use Pushull\PushullTranslationProvider\Api\DTO\Unit;
-use Pushull\PushullTranslationProvider\PushullProvider;
 use Symfony\Component\Translation\Exception\ProviderException;
 use Symfony\Contracts\HttpClient\Exception\ExceptionInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
@@ -58,7 +57,7 @@ class UnitApi
          *
          * @see GET /api/translations/(string: project)/(string: component)/(string: language)/units/
          */
-        $response = self::$client->request('GET', PushullProvider::forceHttps($translation->units_list_url));
+        $response = self::$client->request('GET', $translation->units_list_url);
 
         if (200 !== $response->getStatusCode()) {
             self::$logger->debug($response->getStatusCode().': '.$response->getContent(false));
@@ -121,7 +120,7 @@ class UnitApi
          *
          * @see https://docs.weblate.org/en/latest/api.html#post--api-translations-(string-project)-(string-component)-(string-language)-units-
          */
-        $response = self::$client->request('POST', PushullProvider::forceHttps($translation->units_list_url), [
+        $response = self::$client->request('POST', $translation->units_list_url, [
             'body' => ['key' => $key, 'value' => $value],
         ]);
 
@@ -143,7 +142,7 @@ class UnitApi
          *
          * @see https://docs.weblate.org/en/latest/api.html#patch--api-units-(int-id)-
          */
-        $response = self::$client->request('PATCH', PushullProvider::forceHttps($unit->url), [
+        $response = self::$client->request('PATCH', $unit->url, [
             'body' => ['target' => $value, 'state' => $value ? 20 : 0],
         ]);
 
@@ -165,7 +164,7 @@ class UnitApi
          *
          * @see https://docs.weblate.org/en/latest/api.html#delete--api-units-(int-id)-
          */
-        $response = self::$client->request('DELETE', PushullProvider::forceHttps($unit->url));
+        $response = self::$client->request('DELETE', $unit->url);
 
         if (204 !== $response->getStatusCode()) {
             self::$logger->debug($response->getStatusCode().': '.$response->getContent(false));

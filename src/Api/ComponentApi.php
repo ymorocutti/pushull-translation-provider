@@ -11,7 +11,6 @@ namespace Pushull\PushullTranslationProvider\Api;
 
 use Psr\Log\LoggerInterface;
 use Pushull\PushullTranslationProvider\Api\DTO\Component;
-use Pushull\PushullTranslationProvider\PushullProvider;
 use Symfony\Component\Mime\Part\DataPart;
 use Symfony\Component\Mime\Part\Multipart\FormDataPart;
 use Symfony\Component\Translation\Exception\ProviderException;
@@ -175,7 +174,7 @@ class ComponentApi
          *
          * @see https://docs.weblate.org/en/latest/api.html#delete--api-components-(string-project)-(string-component)-
          */
-        $response = self::$client->request('DELETE', PushullProvider::forceHttps($component->url));
+        $response = self::$client->request('DELETE', $component->url);
 
         if (204 !== $response->getStatusCode()) {
             self::$logger->debug($response->getStatusCode().': '.$response->getContent(false));
@@ -197,7 +196,7 @@ class ComponentApi
          *
          * @see https://docs.weblate.org/en/latest/api.html#post--api-components-(string-project)-(string-component)-repository-
          */
-        $response = self::$client->request('POST', PushullProvider::forceHttps($component->repository_url), [
+        $response = self::$client->request('POST', $component->repository_url, [
             'body' => ['operation' => 'commit'],
         ]);
 

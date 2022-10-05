@@ -12,7 +12,6 @@ namespace Pushull\PushullTranslationProvider\Api;
 use Psr\Log\LoggerInterface;
 use Pushull\PushullTranslationProvider\Api\DTO\Component;
 use Pushull\PushullTranslationProvider\Api\DTO\Translation;
-use Pushull\PushullTranslationProvider\PushullProvider;
 use Symfony\Component\Mime\Part\DataPart;
 use Symfony\Component\Mime\Part\Multipart\FormDataPart;
 use Symfony\Component\Translation\Exception\ProviderException;
@@ -60,7 +59,7 @@ class TranslationApi
          *
          * @see https://docs.weblate.org/en/latest/api.html#get--api-components-(string-project)-(string-component)-translations-
          */
-        $response = self::$client->request('GET', PushullProvider::forceHttps($component->translations_url));
+        $response = self::$client->request('GET', $component->translations_url);
 
         if (200 !== $response->getStatusCode()) {
             self::$logger->debug($response->getStatusCode().': '.$response->getContent(false));
@@ -103,7 +102,7 @@ class TranslationApi
          *
          * @see https://docs.weblate.org/en/latest/api.html#post--api-components-(string-project)-(string-component)-translations-
          */
-        $response = self::$client->request('POST', PushullProvider::forceHttps($component->translations_url), [
+        $response = self::$client->request('POST', $component->translations_url, [
             'body' => ['language_code' => $locale],
         ]);
 
@@ -140,7 +139,7 @@ class TranslationApi
         ];
         $formData = new FormDataPart($formFields);
 
-        $response = self::$client->request('POST', PushullProvider::forceHttps($translation->file_url), [
+        $response = self::$client->request('POST', $translation->file_url, [
             'headers' => $formData->getPreparedHeaders()->toArray(),
             'body' => $formData->bodyToString(),
         ]);
@@ -163,7 +162,7 @@ class TranslationApi
          *
          * @see https://docs.weblate.org/en/latest/api.html#get--api-translations-(string-project)-(string-component)-(string-language)-file-
          */
-        $response = self::$client->request('GET', PushullProvider::forceHttps($translation->file_url));
+        $response = self::$client->request('GET', $translation->file_url);
 
         if (200 !== $response->getStatusCode()) {
             self::$logger->debug($response->getStatusCode().': '.$response->getContent(false));
