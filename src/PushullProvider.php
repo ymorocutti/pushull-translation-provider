@@ -68,6 +68,16 @@ class PushullProvider implements ProviderInterface
         return sprintf('pushull://%s', $this->endpoint);
     }
 
+    private static function domainNormalize(string $domain): string
+    {
+        return str_replace('.', '_dot_', $domain);
+    }
+
+    private static function domainDenormalize(string $domain): string
+    {
+        return str_replace('_dot_', '.', $domain);
+    }
+
     /**
      * @throws ExceptionInterface
      */
@@ -77,11 +87,12 @@ class PushullProvider implements ProviderInterface
         foreach ($translatorBag->getCatalogues() as $catalogue) {
             foreach ($catalogue->getDomains() as $domain) {
                 if (0 === count($catalogue->all($domain))) {
+                    $this->logger->info('Catalog is empty for '.$domain);
                     continue;
                 }
 
                 $content = $this->xliffFileDumper->formatCatalogue($catalogue, $domain, ['default_locale' => $this->defaultLocale]);
-                $component = ComponentApi::getComponent($domain, $content);
+                $component = ComponentApi::getComponent(self::domainNormalize($domain), $content);
                 if (!$component) {
                     $this->logger->error('Could not get/add component for '.$domain);
 
@@ -127,7 +138,7 @@ class PushullProvider implements ProviderInterface
         $translatorBag = new TranslatorBag();
 
         foreach ($domains as $domain) {
-            $component = ComponentApi::getComponent($domain);
+            $component = ComponentApi::getComponent(self::domainNormalize($domain));
             if (!$component) {
                 continue;
             }
@@ -136,7 +147,7 @@ class PushullProvider implements ProviderInterface
                 $translation = TranslationApi::getTranslation($component, $locale);
 
                 $file = TranslationApi::downloadTranslation($translation);
-                $translatorBag->addCatalogue($this->loader->load($file, $locale, $domain));
+                $translatorBag->addCatalogue($this->loader->load($file, $locale, self::domainDenormalize($domain)));
             }
         }
 
@@ -155,7 +166,7 @@ class PushullProvider implements ProviderInterface
                     continue;
                 }
 
-                $component = ComponentApi::getComponent($domain);
+                $component = ComponentApi::getComponent(self::domainNormalize($domain));
                 if (!$component) {
                     continue;
                 }
