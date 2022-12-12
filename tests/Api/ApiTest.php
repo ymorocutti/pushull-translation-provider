@@ -24,7 +24,7 @@ abstract class ApiTest extends TestCase
     ): callable
     {
         return function (string $method, string $url, array $options = []) use ($expectedUrl, $expectedMethod, $expectedBody, $result, $statusCode): ResponseInterface {
-            $this->assertStringEndsWith($expectedUrl, $url);
+            $this->assertStringContainsString($expectedUrl, $url);
             $this->assertSame($expectedMethod, $method);
             if ($expectedBody) {
                 $this->assertStringContainsString($expectedBody, $options['body']);

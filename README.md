@@ -4,7 +4,7 @@
 
 ---
 
-This bundle provides a [Pushull](https://web.pushull.com) integration for [Symfony Translation](https://symfony.com/doc/current/translation.html).
+This bundle provides a [Pushull](https://pushull.com) integration for [Symfony Translation](https://symfony.com/doc/current/translation.html).
 
 It is a fork of `m2mtech/pushull-translation-provider` updated for Pushull specific implementation of weblate.
 

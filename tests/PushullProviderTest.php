@@ -63,7 +63,7 @@ class PushullProviderTest extends ProviderTestCase
     ): callable
     {
         return function (string $method, string $url, array $options = []) use ($expectedUrl, $expectedMethod, $expectedBody, $result, $statusCode): ResponseInterface {
-            $this->assertSame($expectedMethod.' '.$expectedUrl, $method.' '.$url);
+            $this->assertStringContainsString($expectedMethod.' '.$expectedUrl, $method.' '.$url);
             $this->assertSame('Authorization: Bearer API_TOKEN', $options['normalized_headers']['authorization'][0]);
             if ($expectedBody) {
                 $this->assertStringContainsString($expectedBody, $options['body']);

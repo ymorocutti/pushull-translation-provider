@@ -73,9 +73,9 @@ class UnitApi
                 self::$logger->debug('Loaded unit '.$translation->filename.' '.$unit->context);
             }
 
-            $page++;
+            ++$page;
             $nextUrl = $results['next'] ?? null;
-        } while ($nextUrl !== null);
+        } while (null !== $nextUrl);
 
         return self::$units[$translation->filename] ?? [];
     }
