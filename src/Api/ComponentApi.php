@@ -68,25 +68,31 @@ class ComponentApi
          *
          * @see https://docs.weblate.org/en/latest/api.html#get--api-projects-(string-project)-components-
          */
-        $response = self::$client->request('GET', 'projects/'.self::$project.'/components/');
+        $page = 1;
+        do {
+            $response = self::$client->request('GET', 'projects/'.self::$project.'/components/?'.http_build_query(['page' => $page]));
 
-        if (200 !== $response->getStatusCode()) {
-            self::$logger->debug($response->getStatusCode().': '.$response->getContent(false));
-            throw new ProviderException('Unable to get pushull components.', $response);
-        }
-
-        $results = $response->toArray()['results'];
-
-        foreach ($results as $result) {
-            $component = new Component($result);
-
-            if ('glossary' === $component->slug) {
-                continue;
+            if (200 !== $response->getStatusCode()) {
+                self::$logger->debug($response->getStatusCode().': '.$response->getContent(false));
+                throw new ProviderException('Unable to get pushull components.', $response);
             }
 
-            self::$components[$component->slug] = $component;
-            self::$logger->debug('Loaded component '.$component->slug);
-        }
+            $results = $response->toArray();
+
+            foreach ($results['results'] ?? [] as $result) {
+                $component = new Component($result);
+
+                if ('glossary' === $component->slug) {
+                    continue;
+                }
+
+                self::$components[$component->slug] = $component;
+                self::$logger->debug('Loaded component '.$component->slug);
+            }
+
+            $page++;
+            $nextUrl = $results['next'] ?? null;
+        } while ($nextUrl !== null);
 
         return self::$components;
     }

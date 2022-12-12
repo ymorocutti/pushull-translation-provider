@@ -57,19 +57,25 @@ class UnitApi
          *
          * @see GET /api/translations/(string: project)/(string: component)/(string: language)/units/
          */
-        $response = self::$client->request('GET', $translation->units_list_url);
+        $page = 1;
+        do {
+            $response = self::$client->request('GET', $translation->units_list_url.'?'.http_build_query(['page' => $page]));
 
-        if (200 !== $response->getStatusCode()) {
-            self::$logger->debug($response->getStatusCode().': '.$response->getContent(false));
-            throw new ProviderException('Unable to get pushull units for '.$translation->filename.'.', $response);
-        }
+            if (200 !== $response->getStatusCode()) {
+                self::$logger->debug($response->getStatusCode().': '.$response->getContent(false));
+                throw new ProviderException('Unable to get pushull units for '.$translation->filename.'.', $response);
+            }
 
-        $results = $response->toArray()['results'];
-        foreach ($results as $result) {
-            $unit = new Unit($result);
-            self::$units[$translation->filename][$unit->context] = $unit;
-            self::$logger->debug('Loaded unit '.$translation->filename.' '.$unit->context);
-        }
+            $results = $response->toArray();
+            foreach ($results['results'] ?? [] as $result) {
+                $unit = new Unit($result);
+                self::$units[$translation->filename][$unit->context] = $unit;
+                self::$logger->debug('Loaded unit '.$translation->filename.' '.$unit->context);
+            }
+
+            $page++;
+            $nextUrl = $results['next'] ?? null;
+        } while ($nextUrl !== null);
 
         return self::$units[$translation->filename] ?? [];
     }
