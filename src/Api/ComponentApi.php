@@ -22,6 +22,8 @@ class ComponentApi
     /** @var array<string,Component> */
     private static $components = [];
 
+    private static $partialResponse = false;
+
     /** @var HttpClientInterface */
     private static $client;
 
@@ -59,9 +61,11 @@ class ComponentApi
             self::$components = [];
         }
 
-        if (self::$components) {
+        if (self::$components && false === self::$partialResponse) {
             return self::$components;
         }
+
+        self::$partialResponse = false;
 
         /**
          * GET /api/projects/(string: project)/components/.
@@ -98,12 +102,47 @@ class ComponentApi
     }
 
     /**
+     * GET /api/components/(string: project)/(string: component)/.
+     *
+     * @see https://docs.weblate.org/en/latest/api.html#get--api-components-(string-project)-(string-component)-
+     */
+    public static function getOneComponent(string $component): Component
+    {
+        if (self::$components && isset(self::$components[$component])) {
+            return self::$components[$component];
+        }
+
+        self::$partialResponse = true;
+
+        $response = self::$client->request('GET', 'components/'.self::$project.'/'.$component.'/');
+
+        if (200 !== $response->getStatusCode()) {
+            self::$logger->debug($response->getStatusCode().': '.$response->getContent(false));
+            throw new ProviderException('Unable to get pushull component.', $response);
+        }
+
+        $result = $response->toArray();
+
+        $component = new Component($result);
+
+        self::$components[$component->slug] = $component;
+        self::$logger->debug('Loaded component '.$component->slug);
+
+        return $component;
+    }
+
+    /**
      * @throws ExceptionInterface
      */
     public static function hasComponent(string $slug): bool
     {
-        self::getComponents();
+        // Check if it's been loaded using single component
+        if (isset(self::$components[$slug])) {
+            return true;
+        }
 
+        // Otherwise, load everything and check again
+        self::getComponents();
         if (isset(self::$components[$slug])) {
             return true;
         }

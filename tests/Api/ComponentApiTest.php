@@ -31,6 +31,16 @@ class ComponentApiTest extends ApiTest
         );
     }
 
+    private function getGetComponentResponse(array $component): callable
+    {
+        return $this->getResponse(
+            '/components/project/'.$component['slug'].'/',
+            'GET',
+            '',
+            (string) json_encode($component)
+        );
+    }
+
     /**
      * @param array<array<string,string>> $results
      */
@@ -92,6 +102,42 @@ class ComponentApiTest extends ApiTest
 
         $components = ComponentApi::getComponents();
         foreach ($results as $result) {
+            $this->assertSame($result['translations_url'], $components[$result['slug']]->translations_url);
+        }
+    }
+
+    public function testGetOneComponent(): void
+    {
+        $component = DTOFaker::createComponentData();
+        $this->setupFactory([$this->getGetComponentResponse($component)]);
+
+        $result = ComponentApi::getOneComponent($component['slug']);
+        $this->assertEquals($component['slug'], $result->slug);
+        $this->assertInstanceOf(Component::class, $result);
+
+        $this->assertTrue(ComponentApi::hasComponent($result->slug));
+    }
+
+    public function testMultipleGetComponents(): void
+    {
+        $oneComponent = DTOFaker::createComponentData();
+        $multipleComponents = [
+            DTOFaker::createComponentData(),
+            DTOFaker::createComponentData(),
+        ];
+
+        $this->setupFactory([
+            $this->getGetComponentResponse($oneComponent),
+            $this->getGetComponentsResponse($multipleComponents),
+        ]);
+
+        // When calling getOneComponent, response will be added in cache. But this cache is incomplete.
+        // If there is call to getComponents, we need to make sure this cache won't be served.
+        $result = ComponentApi::getOneComponent($oneComponent['slug']);
+        $this->assertEquals($oneComponent['slug'], $result->slug);
+
+        $components = ComponentApi::getComponents();
+        foreach ($multipleComponents as $result) {
             $this->assertSame($result['translations_url'], $components[$result['slug']]->translations_url);
         }
     }
