@@ -37,7 +37,7 @@ class ComponentApiTest extends ApiTest
     private function getGetComponentsResponse(array $results): callable
     {
         return $this->getResponse(
-            '/projects/project/components/',
+            '/projects/project/components/?page=1',
             'GET',
             '',
             (string) json_encode(['results' => $results])

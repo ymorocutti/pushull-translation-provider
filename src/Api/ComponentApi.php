@@ -90,9 +90,9 @@ class ComponentApi
                 self::$logger->debug('Loaded component '.$component->slug);
             }
 
-            $page++;
+            ++$page;
             $nextUrl = $results['next'] ?? null;
-        } while ($nextUrl !== null);
+        } while (null !== $nextUrl);
 
         return self::$components;
     }
