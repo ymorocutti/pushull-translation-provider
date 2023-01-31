@@ -36,7 +36,7 @@ class UnitApiTest extends ApiTest
     private function getGetUnitsResponse(Translation $translation, array $results): callable
     {
         return $this->getResponse(
-            $translation->units_list_url,
+            $translation->units_list_url.'&page=1',
             'GET',
             '',
             (string) json_encode(['results' => $results])

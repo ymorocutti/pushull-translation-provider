@@ -68,6 +68,14 @@ class PushullProvider implements ProviderInterface
         return sprintf('pushull://%s', $this->endpoint);
     }
 
+    protected function loadFirstDomain(array $domains): void
+    {
+        // If we try to fetch only one domain, don't load them all
+        if (1 === count($domains) && ($domain = reset($domains))) {
+            ComponentApi::getOneComponent(self::domainNormalize($domain));
+        }
+    }
+
     private static function domainNormalize(string $domain): string
     {
         return str_replace('.', '_dot_', $domain);
@@ -85,6 +93,8 @@ class PushullProvider implements ProviderInterface
     {
         /** @var MessageCatalogue $catalogue */
         foreach ($translatorBag->getCatalogues() as $catalogue) {
+            $this->loadFirstDomain($catalogue->getDomains());
+
             foreach ($catalogue->getDomains() as $domain) {
                 if (0 === count($catalogue->all($domain))) {
                     $this->logger->info('Catalog is empty for '.$domain);
@@ -135,6 +145,9 @@ class PushullProvider implements ProviderInterface
             $domains = array_keys(ComponentApi::getComponents());
         }
 
+        // If we try to fetch only one domain, don't load them all
+        $this->loadFirstDomain($domains);
+
         $translatorBag = new TranslatorBag();
 
         foreach ($domains as $domain) {
@@ -161,6 +174,8 @@ class PushullProvider implements ProviderInterface
     {
         /** @var MessageCatalogue $catalogue */
         foreach ($translatorBag->getCatalogues() as $catalogue) {
+            $this->loadFirstDomain($catalogue->getDomains());
+
             foreach ($catalogue->getDomains() as $domain) {
                 if (0 === count($catalogue->all($domain))) {
                     continue;

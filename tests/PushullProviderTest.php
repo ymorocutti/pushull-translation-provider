@@ -79,7 +79,7 @@ class PushullProviderTest extends ProviderTestCase
     private function getGetComponentsResponse(array $results): callable
     {
         return $this->getResponse(
-            'https://web.pushull.com/acme/api/projects/project/components/',
+            'https://web.pushull.com/acme/api/projects/project/components/?page=1',
             'GET',
             '',
             (string) json_encode(['results' => $results])
@@ -153,7 +153,7 @@ class PushullProviderTest extends ProviderTestCase
     private function getGetUnitsResponse(string $url, array $results): callable
     {
         return $this->getResponse(
-            $url,
+            $url.'&page=1',
             'GET',
             '',
             (string) json_encode(['results' => $results])

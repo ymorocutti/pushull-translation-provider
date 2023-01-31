@@ -59,7 +59,9 @@ class UnitApi
          */
         $page = 1;
         do {
-            $response = self::$client->request('GET', $translation->units_list_url.'?'.http_build_query(['page' => $page]));
+            $url = $translation->units_list_url.
+                (null === parse_url($translation->units_list_url, PHP_URL_QUERY) ? '?' : '&').http_build_query(['page' => $page]);
+            $response = self::$client->request('GET', $url);
 
             if (200 !== $response->getStatusCode()) {
                 self::$logger->debug($response->getStatusCode().': '.$response->getContent(false));
