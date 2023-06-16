@@ -106,7 +106,7 @@ class ComponentApi
      *
      * @see https://docs.weblate.org/en/latest/api.html#get--api-components-(string-project)-(string-component)-
      */
-    public static function getOneComponent(string $component): Component
+    public static function getOneComponent(string $component): ?Component
     {
         if (self::$components && isset(self::$components[$component])) {
             return self::$components[$component];
@@ -117,8 +117,7 @@ class ComponentApi
         $response = self::$client->request('GET', 'components/'.self::$project.'/'.$component.'/');
 
         if (200 !== $response->getStatusCode()) {
-            self::$logger->debug($response->getStatusCode().': '.$response->getContent(false));
-            throw new ProviderException('Unable to get pushull component.', $response);
+            return null;
         }
 
         $result = $response->toArray();
